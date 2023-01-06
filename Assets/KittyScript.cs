@@ -6,20 +6,26 @@ public class KittyScript : MonoBehaviour
 {
     public Rigidbody2D myRigidbody;
     public float flapStrenght;
-    // Start is called before the first frame update
+    public LogicScript logic;
+    public bool isKittyAlive = true;
+    
     void Start()
     {
-        gameObject.name = "Pussy Kitty";
+        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space) == true)
+        if(Input.GetKeyDown(KeyCode.Space) && isKittyAlive)
         {
             myRigidbody.velocity = Vector2.up * flapStrenght;
 
         }
-        
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        logic.gameOver();
+        isKittyAlive = false;
     }
 }
